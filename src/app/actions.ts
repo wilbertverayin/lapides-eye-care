@@ -1,6 +1,4 @@
 
-"use server";
-
 import { z } from "zod";
 
 const contactFormSchema = z.object({
@@ -38,8 +36,6 @@ export async function submitContactForm(
   }
 
   try {
-    // In a real application, you would integrate an email sending service here.
-    // For example, using Resend, Nodemailer, or SendGrid.
     console.log("New contact form submission:", validatedFields.data);
 
     // Simulate a successful API call

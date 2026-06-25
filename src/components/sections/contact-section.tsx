@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import { useEffect, useRef, useState } from "react";
 import { submitContactForm, type FormState } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,8 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Mail, Phone, Clock, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
+function SubmitButton({ pending }: { pending: boolean }) {
   return (
     <Button
       type="submit"
@@ -43,7 +41,8 @@ const Blob = ({ className }: { className?: string }) => (
 
 export default function ContactSection() {
   const initialState: FormState = { message: "", errors: undefined, isSuccess: false };
-  const [state, formAction] = useActionState(submitContactForm, initialState);
+  const [state, setState] = useState<FormState>(initialState);
+  const [pending, setPending] = useState(false);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -60,11 +59,20 @@ export default function ContactSection() {
     }
   }, [state, toast]);
 
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setPending(true);
+    const formData = new FormData(e.currentTarget);
+    const result = await submitContactForm(state, formData);
+    setState(result);
+    setPending(false);
+  }
+
   return (
     <section id="contact" className="w-full relative bg-secondary/30 py-24 sm:py-32 overflow-hidden">
       <Blob className="w-[40rem] h-[40rem] bg-purple-200 -top-16 -left-32" />
       <Blob className="w-[40rem] h-[40rem] bg-blue-200 -bottom-16 -right-32" />
-      
+
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
           <div className="space-y-2">
@@ -80,7 +88,7 @@ export default function ContactSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-start">
           <div className="bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-lg rounded-3xl p-8 space-y-8">
             <h3 className="text-2xl font-bold text-blue-800">Get in Touch</h3>
-            
+
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <Mail className="h-6 w-6 text-primary mt-1" />
@@ -127,7 +135,7 @@ export default function ContactSection() {
           <Card className="shadow-2xl rounded-3xl border-2 border-cyan-200/50 bg-white/60 backdrop-blur-sm">
             <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-cyan-700 mb-6">Book Appointment</h3>
-              <form ref={formRef} action={formAction} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="font-semibold">Full Name <span className="text-destructive">*</span></Label>
                   <Input id="fullName" name="fullName" placeholder="Enter your full name" aria-label="Full Name" />
@@ -148,7 +156,7 @@ export default function ContactSection() {
                    <Textarea id="message" name="message" placeholder="Tell us about your concerns or preferred appointment time..." rows={4} aria-label="Message"/>
                    {state.errors?.message && <p className="text-destructive text-sm mt-1">{state.errors.message[0]}</p>}
                 </div>
-                <SubmitButton />
+                <SubmitButton pending={pending} />
               </form>
             </CardContent>
           </Card>
