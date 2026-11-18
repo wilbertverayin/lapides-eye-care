@@ -8,6 +8,8 @@ const contactFormSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters.").max(500, "Message must be less than 500 characters."),
 });
 
+export const FORMSPREE_ENDPOINT = "https://formspree.io/f/FORMSPREE_FORM_ID";
+
 export type FormState = {
   message: string;
   errors?: {
@@ -36,20 +38,30 @@ export async function submitContactForm(
   }
 
   try {
-    console.log("New contact form submission:", validatedFields.data);
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
 
-    // Simulate a successful API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (response.ok) {
+      return {
+        message: "Thank you! Your message has been sent successfully.",
+        errors: undefined,
+        isSuccess: true,
+      };
+    }
 
+    const data = await response.json().catch(() => null);
+    const detail = data?.errors?.map((e: { message: string }) => e.message).join(", ");
     return {
-      message: "Thank you! Your message has been sent successfully.",
+      message: detail || "We could not send your message. Please try again.",
       errors: undefined,
-      isSuccess: true,
+      isSuccess: false,
     };
-  } catch (error) {
-    console.error("Error submitting form:", error);
+  } catch {
     return {
-      message: "An unexpected error occurred. Please try again later.",
+      message: "Network error. Please check your connection and try again.",
       errors: undefined,
       isSuccess: false,
     };
