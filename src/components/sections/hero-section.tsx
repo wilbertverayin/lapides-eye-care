@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { doctor } from "@/content/doctor";
 
 const Blob = ({ className }: { className?: string }) => (
   <div className={cn("absolute rounded-full mix-blend-multiply filter blur-3xl opacity-40 -z-10", className)} />
@@ -39,10 +40,10 @@ export default function HeroSection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 text-center md:text-left">
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-tight">
-              Jomel G. Lapides,<br /> MD, DPBO
+              {doctor.heroNameLines[0]}<br /> {doctor.heroNameLines[1]}
             </h1>
             <p className="text-xl md:text-2xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-cyan-500">
-              Comprehensive Ophthalmology | Laser &amp; Cataract Surgery
+              {doctor.specialty}
             </p>
             <p className="max-w-lg mx-auto md:mx-0 text-foreground/80 md:text-lg">
               Board-certified ophthalmologist providing patient-centered eye care with expertise in advanced surgical procedures and comprehensive eye health solutions.
