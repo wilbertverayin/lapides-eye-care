@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Mail, MapPin, Phone, Clock, Triangle } from "lucide-react";
+import { doctor } from "@/content/doctor";
 
 const Building1Icon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -33,32 +34,11 @@ const HospitalIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-const clinics = [
-  {
-    icon: <Building1Icon className="h-10 w-10 text-gray-500" />,
-    name: "Premiere Eye Referral Center (PERC)",
-    tag: "Specialty Clinic",
-    address: "YKM Bldg., UN Avenue cor. Alhambra St., Ermita, Manila",
-    schedule: "Thursday (by appointment only)",
-    note: null,
-  },
-  {
-    icon: <Building2Icon className="h-10 w-10 text-gray-500" />,
-    name: "Ideal Vision Center, SM MOA",
-    tag: "Vision Center",
-    address: "3rd Floor, SM Mall of Asia, Pasay City",
-    schedule: "Sunday, 3-7 PM",
-    note: null,
-  },
-  {
-    icon: <HospitalIcon className="h-10 w-10 text-gray-500" />,
-    name: "Maxicare Primary Care Clinics",
-    tag: "HMO Clinic",
-    address: "Multiple Locations (Cubao, Metroeast, Hemady, VV Soliven, Otis)",
-    schedule: "Tuesday (Cubao & Metroeast), Friday (Hemady & VV Soliven), Saturday (Otis & VV Soliven)",
-    note: "Maxicare HMO cardholders only",
-  },
-];
+const clinicIcons = {
+  building1: <Building1Icon className="h-10 w-10 text-gray-500" />,
+  building2: <Building2Icon className="h-10 w-10 text-gray-500" />,
+  hospital: <HospitalIcon className="h-10 w-10 text-gray-500" />,
+};
 
 const Blob = ({ className }: { className?: string }) => (
     <div className={cn("absolute rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10", className)} />
@@ -83,11 +63,11 @@ export default function ScheduleSection() {
         </div>
 
         <div className="mx-auto grid max-w-sm gap-8 sm:max-w-none sm:grid-cols-2 lg:grid-cols-3 xl:max-w-6xl">
-          {clinics.map((clinic, index) => (
+          {doctor.clinics.map((clinic, index) => (
             <Card key={index} className="flex flex-col p-6 bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardContent className="flex flex-col items-center gap-4 p-0 h-full text-center">
                 <div className="p-3 bg-slate-100 rounded-full">
-                    {clinic.icon}
+                    {clinicIcons[clinic.icon]}
                 </div>
                 <div className="space-y-3">
                   <h3 className="text-xl font-bold text-foreground">
@@ -137,13 +117,13 @@ export default function ScheduleSection() {
                         Contact us directly to book your consultation at any of our convenient locations.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-x-8 gap-y-4 text-lg">
-                        <a href="mailto:jglapides0225@gmail.com" className="flex items-center gap-3 hover:text-primary transition-colors">
+                        <a href={`mailto:${doctor.contact.email}`} className="flex items-center gap-3 hover:text-primary transition-colors">
                             <Mail className="h-6 w-6 text-primary" />
-                            <span className="font-medium text-foreground hover:text-primary">jglapides0225@gmail.com</span>
+                            <span className="font-medium text-foreground hover:text-primary">{doctor.contact.email}</span>
                         </a>
                         <div className="flex items-center gap-3">
                             <Phone className="h-6 w-6 text-primary" />
-                            <span className="font-medium text-foreground">0963 080 3269</span>
+                            <span className="font-medium text-foreground">{doctor.contact.phone}</span>
                         </div>
                     </div>
                 </CardContent>

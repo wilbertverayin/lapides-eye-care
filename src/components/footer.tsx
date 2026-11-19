@@ -1,4 +1,5 @@
 import { Mail, Phone } from "lucide-react";
+import { doctor } from "@/content/doctor";
 
 export default function Footer() {
   return (
@@ -11,9 +12,9 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 text-white">
               {/* Column 1: Doctor's Info */}
               <div className="space-y-3">
-                  <h3 className="text-2xl font-bold">Dr. Jomel G. Lapides</h3>
-                  <p className="text-white/80">Board-Certified Ophthalmologist</p>
-                  <p className="text-white/80">Comprehensive Ophthalmology | Laser & Cataract Surgery</p>
+                  <h3 className="text-2xl font-bold">{doctor.name}</h3>
+                  <p className="text-white/80">{doctor.jobTitle}</p>
+                  <p className="text-white/80">{doctor.specialty}</p>
               </div>
 
               {/* Column 2: Quick Contact */}
@@ -22,13 +23,13 @@ export default function Footer() {
                   <ul className="space-y-3">
                       <li className="flex items-center gap-3">
                           <Mail className="h-5 w-5 text-blue-300" />
-                          <a href="mailto:jglapides0225@gmail.com" className="text-white/80 hover:text-white transition-colors">
-                              jglapides0225@gmail.com
+                          <a href={`mailto:${doctor.contact.email}`} className="text-white/80 hover:text-white transition-colors">
+                              {doctor.contact.email}
                           </a>
                       </li>
                       <li className="flex items-center gap-3">
                           <Phone className="h-5 w-5 text-blue-300" />
-                          <span className="text-white/80">0963 080 3269</span>
+                          <span className="text-white/80">{doctor.contact.phone}</span>
                       </li>
                   </ul>
               </div>
@@ -37,18 +38,16 @@ export default function Footer() {
               <div className="space-y-4">
                   <h4 className="text-xl font-semibold text-blue-300">Clinic Hours</h4>
                   <div className="text-white/80 space-y-1 text-sm">
-                      <p>Tuesday: Maxicare Clinics</p>
-                      <p>Thursday: PERC (by appointment)</p>
-                      <p>Friday: Maxicare Clinics</p>
-                      <p>Saturday: Maxicare Clinics</p>
-                      <p>Sunday: SM MOA (3-7 PM)</p>
+                      {doctor.hoursSummary.map((line) => (
+                        <p key={line}>{line}</p>
+                      ))}
                   </div>
               </div>
           </div>
 
           <div className="mt-12 pt-8 border-t border-white/20 text-center">
               <div className="flex flex-col md:flex-row justify-between items-center text-sm text-white/70">
-                  <p>&copy; 2025 Dr. Jomel G. Lapides, MD, DPBO. All rights reserved.</p>
+                  <p>&copy; 2025 {doctor.nameWithCredentials}. All rights reserved.</p>
                   <p className="mt-4 md:mt-0">Professional eye care you can trust</p>
               </div>
               <div className="mt-6">

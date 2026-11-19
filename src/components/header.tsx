@@ -5,6 +5,7 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { doctor } from "@/content/doctor";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function Header() {
     <header className="absolute top-0 z-50 w-full bg-transparent">
       <div className="container flex h-20 items-center">
         <Link href="#hero" className="mr-6 flex items-center" onClick={closeMenu}>
-          <span className="font-bold text-xl text-foreground">Dr. Jomel G. Lapides</span>
+          <span className="font-bold text-xl text-foreground">{doctor.name}</span>
         </Link>
         <nav className="hidden flex-1 items-center space-x-8 text-base md:flex">
           {navLinks.map((link) => (
@@ -49,7 +50,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[80vw] bg-background/90 backdrop-blur-sm">
               <Link href="#hero" className="mr-6 flex items-center space-x-2 mb-8" onClick={closeMenu}>
-                <span className="font-bold text-xl">Dr. Jomel G. Lapides</span>
+                <span className="font-bold text-xl">{doctor.name}</span>
               </Link>
               <div className="flex flex-col space-y-5">
                 {navLinks.map((link) => (

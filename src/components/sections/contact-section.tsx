@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, Clock, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { doctor } from "@/content/doctor";
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -94,8 +95,8 @@ export default function ContactSection() {
                 <Mail className="h-6 w-6 text-primary mt-1" />
                 <div>
                   <h4 className="font-semibold text-foreground">Email</h4>
-                  <a href="mailto:jglapides0225@gmail.com" className="text-foreground/80 hover:text-primary transition-colors">
-                    jglapides0225@gmail.com
+                  <a href={`mailto:${doctor.contact.email}`} className="text-foreground/80 hover:text-primary transition-colors">
+                    {doctor.contact.email}
                   </a>
                 </div>
               </div>
@@ -103,7 +104,7 @@ export default function ContactSection() {
                 <Phone className="h-6 w-6 text-primary mt-1" />
                 <div>
                   <h4 className="font-semibold text-foreground">Phone</h4>
-                  <p className="text-foreground/80">0963 080 3269</p>
+                  <p className="text-foreground/80">{doctor.contact.phone}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -111,11 +112,9 @@ export default function ContactSection() {
                 <div>
                   <h4 className="font-semibold text-foreground">Office Hours</h4>
                   <div className="text-foreground/80 space-y-1">
-                    <p>Tuesday: Cubao & Metroeast Clinics</p>
-                    <p>Thursday: PERC (by appointment)</p>
-                    <p>Friday: Hemady & VV Soliven Clinics</p>
-                    <p>Saturday: Otis & VV Soliven Clinics</p>
-                    <p>Sunday: SM MOA (3-7 PM)</p>
+                    {doctor.officeHours.map((line) => (
+                      <p key={line}>{line}</p>
+                    ))}
                   </div>
                 </div>
               </div>

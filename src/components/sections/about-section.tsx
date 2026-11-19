@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { doctor } from "@/content/doctor";
 
 const Blob = ({ className }: { className?: string }) => (
   <div
@@ -13,13 +14,6 @@ const Blob = ({ className }: { className?: string }) => (
 );
 
 export default function AboutSection() {
-  const credentials = [
-    "Board-Certified Ophthalmologist (MD, DPBO)",
-    "Specialist in Comprehensive Eye Care",
-    "Expert in Cataract & Laser Surgery",
-    "HMO Network Provider (Maxicare)",
-  ];
-
   return (
     <section id="about" className="relative w-full py-24 sm:py-32 overflow-hidden bg-white">
       <Blob className="w-[30rem] h-[30rem] bg-purple-200 top-0 -left-32" />
@@ -60,7 +54,7 @@ export default function AboutSection() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {credentials.map((cred, index) => (
+                  {doctor.credentialsList.map((cred, index) => (
                     <li key={index} className="flex items-center">
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 mr-3 shrink-0" />
                       <span className="text-foreground/90">{cred}</span>
